@@ -1,13 +1,18 @@
-import {useCallback, useState} from "react";
+import {useCallback, useContext, useState} from "react";
 import {FieldValues, SubmitHandler, useForm} from "react-hook-form";
 import {Input} from "../components/inputs/input";
 import {Button} from "../components/Button";
+import axios from "axios";
+import {Navigate} from "react-router-dom";
+import {UserContext} from "../UserContext";
 
 type Variant = "REGISTER" | "LOGIN"
 
 export const LoginForm = () => {
     const [variant, setVariant] = useState<Variant>('LOGIN')
     const [isLogin, setIsLogin] = useState(false)
+    const [redirect, setRedirect] = useState(false)
+    const {setUser} = useContext(UserContext)
 
     const toggleVariant = useCallback(() => {
         if (variant === "LOGIN") {
@@ -30,15 +35,29 @@ export const LoginForm = () => {
         }
     })
 
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    const onSubmit: SubmitHandler<FieldValues> = async (data, e) => {
         setIsLogin(true)
 
+        const { email, password } = data; // Отримання email та password з об'єкта data
+
         if (variant === "REGISTER") {
-            //axios Register
+            try{
+                await axios.post('register', data)
+                alert("Ok")
+            }catch(e){
+                alert("Not ok")
+            }
         }
 
         if (variant === "LOGIN") {
-            //NextAuth SignIn
+            try{
+                const {data} = await axios.post('login', {email, password})
+                setUser(data)
+                setRedirect(true)
+                alert("Ok")
+            }catch(e){
+                alert("Not ok")
+            }
         }
     }
 
@@ -48,13 +67,17 @@ export const LoginForm = () => {
         //NextAuth Social Sign In
     }
 
+    if(redirect){
+        return <Navigate to={"/"} />
+    }
+
     return (
         <div className=" mt-8 sm:mx-auto sm:max-w-md">
             <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
 
                 <form
                     className="space-y-6"
-                    onSubmit={onSubmit}
+                    onSubmit={handleSubmit(onSubmit)}
                 >
                     {variant === "REGISTER" && (
                         <Input
@@ -83,7 +106,6 @@ export const LoginForm = () => {
 
                     <div>
                         <Button
-                            disabled={isLogin}
                             fullWidth
                             type={'submit'}>
                             {variant === "LOGIN" ? "Sign in" : "Register"}
@@ -94,7 +116,7 @@ export const LoginForm = () => {
 
                 <div className="flex gap-2 justify-center text-sm mt-6 px-2 text-gray-500">
                     <div>
-                        {variant === "LOGIN"? 'New to messenger?' : "Already have an account?"}
+                        {variant === "LOGIN" ? 'New to messenger?' : "Already have an account?"}
                     </div>
 
                     <div
