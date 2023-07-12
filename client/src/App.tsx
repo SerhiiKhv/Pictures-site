@@ -6,6 +6,7 @@ import {LoginPage} from "./LoginPage/LoginPage";
 import axios from "axios";
 import {UserContextProvider} from "./UserContext";
 import {useEffect} from "react";
+import {AccountPage} from "./Content/Account/AccountPage";
 
 axios.defaults.baseURL = 'http://localhost:4000/'
 axios.defaults.withCredentials = true
@@ -17,6 +18,8 @@ function App() {
                 <Route path='/' element={<Layout/>}>
                     <Route index element={<IndexPage/>}/>
                     <Route path='/login' element={<LoginPage/>}/>
+                    <Route path='/account/' element={<AccountPage/>}/>
+                    <Route path='/account/:subpage' element={<AccountPage/>}/>
                 </Route>
             </Routes>
         </UserContextProvider>

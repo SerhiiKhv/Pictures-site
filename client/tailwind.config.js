@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
         colors:{
-            primary: '#f5385D'
+            primary: '#f5385D',
+            pacificblue: '#0092ca'
         }
     },
   },
