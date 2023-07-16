@@ -7,6 +7,8 @@ require('dotenv').config()
 const jwt = require('jsonwebtoken')
 const cookieParser = require('cookie-parser')
 const app = express()
+const multer = require('multer')
+const fs = require('fs')
 
 const User = require('./models/user')
 
@@ -18,6 +20,7 @@ app.use(cors({
     origin: 'http://localhost:5173'
 }))
 app.use(cookieParser())
+app.use('/uploads', express.static(__dirname+"/uploads"))
 app.use(express.json())
 
 mongoose.connect(process.env.MONGO_URL)
@@ -89,6 +92,24 @@ app.post('/upload-by-link', async (req, res) => {
     });
 
     res.json(newName)
+})
+
+const photosMiddleware = multer({dest:'uploads/'})
+
+app.post('/upload', photosMiddleware.array('photos', 100), (req, res) => {
+    const uploadFiles = []
+
+    for(let i = 0; i < req.files.length; i++){
+
+        const {path, originalname} = req.files[i]
+        const parts = originalname.split('.')
+        const ext = parts[parts.length - 1]
+        const newPath = path + '.' + ext
+        fs.renameSync(path, newPath)
+        uploadFiles.push(newPath.replace('uploads',''))
+    }
+
+    res.json(uploadFiles)
 })
 
 app.listen(4000)

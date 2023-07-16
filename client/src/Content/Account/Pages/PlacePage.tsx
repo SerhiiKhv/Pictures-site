@@ -45,6 +45,25 @@ export const PlacePage = () => {
         setPhotos(prev => [...prev, filename])
         setPhotoLink('')
     }
+    
+    function uploadPhotos(e){
+        const files = e.target.files
+        console.log({files})
+        const data = new FormData()
+
+        for(let i = 0; i < files.length; i++){
+            data.append('photos', files[i])
+        }
+
+        axios.post('/upload', data, {
+            headers: {'Content-type': 'multipart/form-data'}
+        }).then(res => {
+            const {data: filenames} = res
+            setPhotos(prev => {
+                return [...prev, ...filenames]
+            })
+        })
+    }
 
     return (
         <div>
@@ -79,20 +98,23 @@ export const PlacePage = () => {
                         </button>
                     </div>
 
-                    <div className="mt-2 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+                    <div className="mt-2 gap-2 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
                         {photos.length > 0 && photos.map(link => (
-                            <div>{link}</div>
+                            <div className="h-32 flex">
+                                <img className="rounded-2xl w-full object-cover" src={'http://localhost:4000/uploads/' + link} alt={"Loading..."}/>
+                            </div>
                         )) }
 
-                        <button className="border border-gray-400 bg-transporter
+                        <label className="border border-gray-400 bg-transporter items-center
                         rounded-2xl p-8 text-2xl text-gray-600 flex flex-inline justify-center">
+                            <input type="file" className="hidden" onChange={uploadPhotos}/>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                                  stroke="currentColor" className="w-8 h-8">
                                 <path strokeLinecap="round" strokeLinejoin="round"
                                       d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15m0-3l-3-3m0 0l-3 3m3-3V15"/>
                             </svg>
                             Upload
-                        </button>
+                        </label>
                     </div>
 
                     {inputHeader("Description", "Description on the place")}
