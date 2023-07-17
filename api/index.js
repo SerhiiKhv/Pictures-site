@@ -11,6 +11,7 @@ const multer = require('multer')
 const fs = require('fs')
 
 const User = require('./models/user')
+const Place = require('./models/place')
 
 const bcryptSalt = bcrypt.genSaltSync(10)
 const jwtSecret = 'asdfghas14djhf4312adsghsdjf'
@@ -20,7 +21,7 @@ app.use(cors({
     origin: 'http://localhost:5173'
 }))
 app.use(cookieParser())
-app.use('/uploads', express.static(__dirname+"/uploads"))
+app.use('/uploads', express.static(__dirname + "/uploads"))
 app.use(express.json())
 
 mongoose.connect(process.env.MONGO_URL)
@@ -88,28 +89,49 @@ app.post('/upload-by-link', async (req, res) => {
     const newName = 'photo' + Date.now() + '.jpg'
     await imageDownloader.image({
         url: link,
-        dest: __dirname + '/uploads/' +newName
+        dest: __dirname + '/uploads/' + newName
     });
 
     res.json(newName)
 })
 
-const photosMiddleware = multer({dest:'uploads/'})
+const photosMiddleware = multer({dest: 'uploads/'})
 
 app.post('/upload', photosMiddleware.array('photos', 100), (req, res) => {
     const uploadFiles = []
 
-    for(let i = 0; i < req.files.length; i++){
+    for (let i = 0; i < req.files.length; i++) {
 
         const {path, originalname} = req.files[i]
         const parts = originalname.split('.')
         const ext = parts[parts.length - 1]
         const newPath = path + '.' + ext
         fs.renameSync(path, newPath)
-        uploadFiles.push(newPath.replace('uploads',''))
+        uploadFiles.push(newPath.replace('uploads', ''))
     }
 
     res.json(uploadFiles)
+})
+
+app.post('/places', (req, res) => {
+    const {token} = req.cookies
+
+    const {
+        title, address, photos,
+        description, perks, extraInfo,
+        checkIn, checkOut, maxGuests
+    } = req.body
+
+    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+        if (err) throw err;
+        const placeDoc = await Place.create({
+            owner: userData.id,
+            title, address, photos,
+            description, perks, extraInfo,
+            checkIn, checkOut, maxGuests
+        })
+        res.json(placeDoc)
+    })
 })
 
 app.listen(4000)

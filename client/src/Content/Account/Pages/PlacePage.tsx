@@ -17,6 +17,15 @@ export const PlacePage = () => {
     const [checkOut, setCheckOut] = useState('')
     const [maxGuests, setMaxGuests] = useState(1)
 
+    async function submit(e) {
+        e.preventDefault()
+        await axios.post("/places", {
+            title, address, photos,
+            description, perks, extraInfo,
+            checkIn, checkOut, maxGuests
+        })
+    }
+
     function inputHeader(text, description) {
         return <>
             <h2 className="text-xl">{text}</h2>
@@ -81,7 +90,7 @@ export const PlacePage = () => {
                 </div>
             )}
             {action === "new" && (
-                <form className="p-2">
+                <form className="p-2" onSubmit={submit}>
                     {preInput("Title", "This for you place, should be short and catchy as in advertisement",
                         "title, for example: My lovely apt", setTitle, title)}
 
@@ -100,7 +109,7 @@ export const PlacePage = () => {
 
                     <div className="mt-2 gap-2 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
                         {photos.length > 0 && photos.map(link => (
-                            <div className="h-32 flex">
+                            <div className="h-32 flex" key={link}>
                                 <img className="rounded-2xl w-full object-cover" src={'http://localhost:4000/uploads/' + link} alt={"Loading..."}/>
                             </div>
                         )) }
@@ -123,7 +132,7 @@ export const PlacePage = () => {
 
                     {inputHeader("Perks", "select all the perks of you place")}
                     <div className="gap-1 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-                        <Perks selected={perks} onChange={setPerks}/>
+                        <Perks selected={perks} setPerks={setPerks}/>
                     </div>
 
                     {inputHeader("Extra info", "house rules, etc")}
