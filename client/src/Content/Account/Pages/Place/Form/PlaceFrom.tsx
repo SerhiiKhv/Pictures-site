@@ -1,8 +1,10 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Perks} from "./Perks";
 import axios from "axios";
+import {useParams} from "react-router-dom";
 
 export const PlaceFrom = () => {
+    const {id} = useParams()
 
     const [title, setTitle] = useState('')
     const [address, setAddress] = useState('')
@@ -15,12 +17,39 @@ export const PlaceFrom = () => {
     const [checkOut, setCheckOut] = useState('')
     const [maxGuests, setMaxGuests] = useState(1)
 
-    async function submit() {
-        await axios.post("/places", {
+    useEffect(() => {
+        if (!id) {
+            return
+        }
+        axios.get('places/' + id).then(res => {
+            const {data} = res
+            setTitle(data.title)
+            setAddress(data.address)
+            setPhotos(data.photos)
+            setDescription(data.description)
+            setPerks(data.perks)
+            setExtraInfo(data.extraInfo)
+            setCheckIn(data.checkIn)
+            setCheckOut(data.checkOut)
+            setMaxGuests(data.maxGuests)
+        })
+    }, [id])
+
+    async function submit(e) {
+        e.preventDefault()
+        const placeData = {
             title, address, photos,
             description, perks, extraInfo,
             checkIn, checkOut, maxGuests
-        })
+        }
+
+        if (id) {
+            await axios.put("/places", {
+                id, ...placeData
+            })
+        } else {
+            await axios.post("/places", placeData)
+        }
     }
 
     function inputHeader(text, description) {
@@ -45,8 +74,6 @@ export const PlaceFrom = () => {
         </>
     }
 
-
-
     async function addPhotoByLink(e) {
         e.preventDefault()
         const {data: filename} = await axios.post('/upload-by-link', {link: photoLink})
@@ -54,12 +81,12 @@ export const PlaceFrom = () => {
         setPhotoLink('')
     }
 
-    function uploadPhotos(e){
+    function uploadPhotos(e) {
         const files = e.target.files
         console.log({files})
         const data = new FormData()
 
-        for(let i = 0; i < files.length; i++){
+        for (let i = 0; i < files.length; i++) {
             data.append('photos', files[i])
         }
 
@@ -95,9 +122,10 @@ export const PlaceFrom = () => {
                 <div className="mt-2 gap-2 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
                     {photos.length > 0 && photos.map(link => (
                         <div className="h-32 flex" key={link}>
-                            <img className="rounded-2xl w-full object-cover" src={'http://localhost:4000/uploads/' + link} alt={"Loading..."}/>
+                            <img className="rounded-2xl w-full object-cover"
+                                 src={'http://localhost:4000/uploads/' + link} alt={"Loading..."}/>
                         </div>
-                    )) }
+                    ))}
 
                     <label className="border border-gray-400 bg-transporter items-center
                         rounded-2xl p-8 text-2xl text-gray-600 flex flex-inline justify-center">
