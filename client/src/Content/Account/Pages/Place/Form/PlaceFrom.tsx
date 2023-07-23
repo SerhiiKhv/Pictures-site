@@ -16,6 +16,7 @@ export const PlaceFrom = () => {
     const [checkIn, setCheckIn] = useState('')
     const [checkOut, setCheckOut] = useState('')
     const [maxGuests, setMaxGuests] = useState(1)
+    const [price, setPrice] = useState(50)
 
     useEffect(() => {
         if (!id) {
@@ -32,6 +33,7 @@ export const PlaceFrom = () => {
             setCheckIn(data.checkIn)
             setCheckOut(data.checkOut)
             setMaxGuests(data.maxGuests)
+            setPrice(data.price)
         })
     }, [id])
 
@@ -40,7 +42,7 @@ export const PlaceFrom = () => {
         const placeData = {
             title, address, photos,
             description, perks, extraInfo,
-            checkIn, checkOut, maxGuests
+            checkIn, checkOut, maxGuests,price
         }
 
         if (id) {
@@ -100,7 +102,7 @@ export const PlaceFrom = () => {
 
                 {inputHeader("Check in&out times", "add check in and out times, remember to have some" +
                     "time window for cleaning the room between guests")}
-                <div className="gap-2 grid sm:grid-cols-3">
+                <div className="gap-2 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                     <div className="py-1">
                         <h3 className="mt-2 -mb-1 py-1">Check in time</h3>
                         {inputText("12", setCheckIn, checkIn)}
@@ -117,9 +119,16 @@ export const PlaceFrom = () => {
                                onChange={e => setMaxGuests(+e.target.value)}
                                className="p-2 w-full border border-gray-400 rounded-2xl"/>
                     </div>
+
+                    <div className="py-1">
+                        <h3 className="mt-2 -mb-1 py-1">Price per night</h3>
+                        <input type="number" value={price} placeholder="1"
+                               onChange={e => setPrice(+e.target.value)}
+                               className="p-2 w-full border border-gray-400 rounded-2xl"/>
+                    </div>
                 </div>
 
-                <button className="bg-pacificblue text-white rounded-full p-2 w-full">Save</button>
+                <button className="mt-2 bg-pacificblue text-white rounded-full p-2 w-full">Save</button>
             </form>
         </>
     )
