@@ -2,7 +2,7 @@ import {Link, Navigate, NavLink, useParams} from "react-router-dom";
 import {useContext, useState} from "react";
 import {UserContext} from "../../UserContext";
 import axios from "axios";
-import {PlacePage} from "./Pages/PlacePage";
+import {PlacePageAccount} from "./Pages/PlacePageAccount";
 
 export const AccountPage = () => {
 
@@ -77,7 +77,7 @@ export const AccountPage = () => {
 
             {subpage === 'places' && (
                 <div>
-                   <PlacePage />
+                   <PlacePageAccount />
                 </div>
             )}
         </div>

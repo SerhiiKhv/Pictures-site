@@ -2,7 +2,7 @@ import {Link, useParams} from "react-router-dom";
 import {PlaceFrom} from "./Place/Form/PlaceFrom";
 import {PlaceList} from "./Place/PlaceList";
 
-export const PlacePage = () => {
+export const PlacePageAccount = () => {
     const {action} = useParams()
 
     return (

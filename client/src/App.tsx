@@ -5,8 +5,8 @@ import {IndexPage} from "./Content/IndexPage";
 import {LoginPage} from "./LoginPage/LoginPage";
 import axios from "axios";
 import {UserContextProvider} from "./UserContext";
-import {useEffect} from "react";
 import {AccountPage} from "./Content/Account/AccountPage";
+import {PlacePage} from "./Content/PlacePage/PlacePage";
 
 axios.defaults.baseURL = 'http://localhost:4000/'
 axios.defaults.withCredentials = true
@@ -22,6 +22,8 @@ function App() {
                     <Route path='/account/:subpage?' element={<AccountPage/>}/>
                     <Route path='/account/:subpage/:action' element={<AccountPage/>}/>
                     <Route path='/account/:subpage/:action/:id' element={<AccountPage/>}/>
+                    <Route path='/place/:id' element={<PlacePage/>}/>
+
                 </Route>
             </Routes>
         </UserContextProvider>
