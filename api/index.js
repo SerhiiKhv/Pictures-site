@@ -12,6 +12,7 @@ const fs = require('fs')
 
 const User = require('./models/user')
 const Place = require('./models/place')
+const Booking = require('./models/booking')
 
 const bcryptSalt = bcrypt.genSaltSync(10)
 const jwtSecret = 'asdfghas14djhf4312adsghsdjf'
@@ -144,7 +145,7 @@ app.get('/user-places', (req, res) => {
 })
 
 app.get('/places', async (req, res) => {
-        res.json(await Place.find())
+    res.json(await Place.find())
 })
 
 app.get('/places/:id', async (req, res) => {
@@ -160,11 +161,11 @@ app.put('/places', async (req, res) => {
         checkIn, checkOut, maxGuests, price
     } = req.body
 
-   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
         if (err) throw err;
         const placeDoc = await Place.findById(id)
 
-        if(userData.id === placeDoc.owner.toString()){
+        if (userData.id === placeDoc.owner.toString()) {
             placeDoc.set({
                 title, address, photos,
                 description, perks, extraInfo,
@@ -174,6 +175,16 @@ app.put('/places', async (req, res) => {
             res.json('ok')
         }
     })
+})
+
+app.post('/booking', async (req, res) => {
+    const {checkIn, checkOut, name, phone, numberGuests, place, price} = req.body
+
+    const placeDoc = await Booking.create(
+        {checkIn, checkOut, name, phone, numberGuests, place, price}
+    )
+
+    res.json(placeDoc)
 })
 
 app.listen(4000)

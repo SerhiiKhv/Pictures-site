@@ -1,6 +1,7 @@
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import {BookingWidget} from "./BookingWidget";
 
 export const PlacePage = () => {
 
@@ -66,19 +67,22 @@ export const PlacePage = () => {
                 {place.photos[0] &&
                     <div className="grid gap-2 grid-cols-[2fr_1fr_1fr] ">
                         <img src={"http://localhost:4000/uploads" + place.photos[0]}
-                             className="aspect-square object-cover" alt="Loading..."/>
+                             className="aspect-square object-cover" alt="Loading..."
+                             onClick={() => setShowAllPhotos(true)}/>
                         <div>
                             <div className="grid">
                                 {place.photos[1] && (
                                     <img src={"http://localhost:4000/uploads" + place.photos[1]}
-                                         className="aspect-square object-cover " alt="Loading..."/>
+                                         className="aspect-square object-cover " alt="Loading..."
+                                         onClick={() => setShowAllPhotos(true)}/>
                                 )}
                             </div>
 
                             <div className="overflow-hidden">
                                 {place.photos[2] && (
                                     <img src={"http://localhost:4000/uploads" + place.photos[2]}
-                                         className="aspect-square object-cover relative top-2" alt="Loading..."/>
+                                         className="aspect-square object-cover relative top-2" alt="Loading..."
+                                         onClick={() => setShowAllPhotos(true)}/>
                                 )}
                             </div>
                         </div>
@@ -87,14 +91,16 @@ export const PlacePage = () => {
                             <div className="grid">
                                 {place.photos[3] && (
                                     <img src={"http://localhost:4000/uploads" + place.photos[3]}
-                                         className="aspect-square object-cover " alt="Loading..."/>
+                                         className="aspect-square object-cover " alt="Loading..."
+                                         onClick={() => setShowAllPhotos(true)}/>
                                 )}
                             </div>
 
                             <div className="overflow-hidden">
                                 {place.photos[4] && (
                                     <img src={"http://localhost:4000/uploads" + place.photos[4]}
-                                         className="aspect-square object-cover relative top-2" alt="Loading..."/>
+                                         className="aspect-square object-cover relative top-2" alt="Loading..."
+                                         onClick={() => setShowAllPhotos(true)}/>
                                 )}
                             </div>
                         </div>
@@ -112,27 +118,26 @@ export const PlacePage = () => {
                 }
             </div>
 
-            <div className="grid grid-cols-2 py-2">
+            <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] py-2">
                 <div>
                     <h2 className="font-semibold text-2xl">Description</h2>
                     <p>{place.description}</p>
+
+                    <div className="py-4">
+                        Check-in: {place.checkIn} <br/>
+                        Check-out: {place.checkOut} <br/>
+                        Max number of guests: {place.maxGuests}
+                    </div>
                 </div>
 
                 <div>
-                    <div className="bg-white shadow p-4 rounded-2xl">
-                        <div>
-                            <div className="text-center text-2xl">
-                                Price: ${place.price} / per night
-                            </div>
-
-                            <div>
-                                Check-in: {place.checkIn} <br/>
-                                Check-out: {place.checkOut} <br/>
-                                Max number of guests: {place.maxGuests}
-                            </div>
-                        </div>
-                    </div>
+                    <BookingWidget place={place}/>
                 </div>
+            </div>
+
+            <div className="bg-white p-4 rounded-2xl">
+                <h2 className="text-2xl font-semibold">Extra info:</h2>
+                <p className="mb-4 mt-2 text-sm leading-5 text-gray-700">{place.extraInfo}</p>
             </div>
         </div>
     )
