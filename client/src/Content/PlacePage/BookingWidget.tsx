@@ -19,7 +19,6 @@ export const BookingWidget = ({place}) => {
             checkIn, checkOut, name, phone, numberGuests,
             place: place._id,
             price: numberOfDays * place.price,
-
         })
 
         const bookingId = response.data._id

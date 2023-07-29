@@ -1,7 +1,7 @@
 import {useCallback, useContext, useState} from "react";
 import {FieldValues, SubmitHandler, useForm} from "react-hook-form";
 import {Input} from "../components/inputs/input";
-import {Button} from "../components/Button";
+import {Button} from "../components/button/Button";
 import axios from "axios";
 import {Navigate} from "react-router-dom";
 import {UserContext} from "../UserContext";

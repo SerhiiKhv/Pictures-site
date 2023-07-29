@@ -3,6 +3,7 @@ import {useContext, useState} from "react";
 import {UserContext} from "../../UserContext";
 import axios from "axios";
 import {PlacePageAccount} from "./Pages/PlacePageAccount";
+import {BookingsPage} from "./Pages/BookingsPage";
 
 export const AccountPage = () => {
 
@@ -78,6 +79,12 @@ export const AccountPage = () => {
             {subpage === 'places' && (
                 <div>
                    <PlacePageAccount />
+                </div>
+            )}
+
+            {subpage === 'bookings' && (
+                <div>
+                    <BookingsPage />
                 </div>
             )}
         </div>

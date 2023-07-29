@@ -7,6 +7,7 @@ import axios from "axios";
 import {UserContextProvider} from "./UserContext";
 import {AccountPage} from "./Content/Account/AccountPage";
 import {PlacePage} from "./Content/PlacePage/PlacePage";
+import {BookingsPage} from "./Content/Account/Pages/BookingsPage";
 
 axios.defaults.baseURL = 'http://localhost:4000/'
 axios.defaults.withCredentials = true

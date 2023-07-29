@@ -39,7 +39,7 @@ export const PlacePage = () => {
                 </div>
                 <div className="grid grid-cols-2">
                     {place.photos.length > 0 && place.photos.map(photo => (
-                        <div>
+                        <div key={photo.id}>
                             <img src={"http://localhost:4000/uploads" + photo}
                                  className="p-2 w-full h-full" alt="Loading..."/>
                         </div>

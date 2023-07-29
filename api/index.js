@@ -27,6 +27,16 @@ app.use(express.json())
 
 mongoose.connect(process.env.MONGO_URL)
 
+function getUserDataFromReq(req) {
+    return new Promise((resolve, reject) => {
+        jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
+            if (err) throw err
+            resolve(userData)
+        })
+    })
+}
+
+
 app.get('/test', (req, res) => {
     res.json("Test ok")
 })
@@ -178,13 +188,22 @@ app.put('/places', async (req, res) => {
 })
 
 app.post('/booking', async (req, res) => {
+    const userData = await getUserDataFromReq(req)
+
     const {checkIn, checkOut, name, phone, numberGuests, place, price} = req.body
 
     const placeDoc = await Booking.create(
-        {checkIn, checkOut, name, phone, numberGuests, place, price}
+        {checkIn, checkOut, name, phone, numberGuests, place, price,
+        user: userData.id}
     )
 
     res.json(placeDoc)
+})
+
+app.get('/booking', async (req, res) => {
+    const userData = await getUserDataFromReq(req)
+
+    res.json(await Booking.find({user: userData.id}).populate('place'))
 })
 
 app.listen(4000)

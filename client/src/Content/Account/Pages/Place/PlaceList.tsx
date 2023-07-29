@@ -15,7 +15,7 @@ export const PlaceList = () => {
     return(
         <div className="py-4">
             {place.length > 0? place.map(place => (
-                <Link to={"/account/places/new/" + place._id} className="cursor-pointer bg-gray-200 gap-2 flex rounded-2xl p-4">
+                <Link key={place._id} to={"/account/places/new/" + place._id} className="cursor-pointer bg-gray-200 gap-2 flex rounded-2xl p-4">
                     <div className="flex w-32 h-32 shrink-0">
                         {place.photos[0]? (
                             <img src={"http://localhost:4000/uploads" + place.photos[0]}
