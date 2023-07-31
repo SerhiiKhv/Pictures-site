@@ -206,4 +206,13 @@ app.get('/booking', async (req, res) => {
     res.json(await Booking.find({user: userData.id}).populate('place'))
 })
 
+app.get('/booking/:id', async (req, res) => {
+    const userData = await getUserDataFromReq(req)
+    const {id} = req.params
+
+    const searchBooking = await Booking.find({user: userData.id}).populate('place')
+
+    res.json(await searchBooking.find(({_id}) => _id == id))
+})
+
 app.listen(4000)

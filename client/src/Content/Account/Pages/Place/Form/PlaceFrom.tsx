@@ -3,6 +3,7 @@ import {Perks} from "./Perks";
 import axios from "axios";
 import {useParams} from "react-router-dom";
 import {Photos} from "./Photos";
+import {AccountNav} from "../../../AccountNav";
 
 export const PlaceFrom = () => {
     const {id} = useParams()
@@ -78,6 +79,7 @@ export const PlaceFrom = () => {
 
     return (
         <>
+            <AccountNav/>
             <form className="p-2" onSubmit={submit}>
                 {preInput("Title", "This for you place, should be short and catchy as in advertisement",
                     "title, for example: My lovely apt", setTitle, title)}

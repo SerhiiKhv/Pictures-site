@@ -1,12 +1,15 @@
 import {Link, useParams} from "react-router-dom";
-import {PlaceFrom} from "./Place/Form/PlaceFrom";
-import {PlaceList} from "./Place/PlaceList";
+import {PlaceFrom} from "./Form/PlaceFrom";
+import {PlaceList} from "./PlaceList";
+import {AccountNav} from "../../AccountNav";
 
 export const PlacePageAccount = () => {
     const {action} = useParams()
 
     return (
         <div>
+            <AccountNav />
+
             {action !== "new" && (
                 <div className="py-4">
                     <div className="text-center ">
