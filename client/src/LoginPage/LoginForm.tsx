@@ -42,7 +42,7 @@ export const LoginForm = () => {
 
         if (variant === "REGISTER") {
             try{
-                await axios.post('register', data)
+                await axios.post('account/register', data)
                 alert("Ok")
             }catch(e){
                 alert("Not ok")
@@ -51,7 +51,7 @@ export const LoginForm = () => {
 
         if (variant === "LOGIN") {
             try{
-                const {data} = await axios.post('login', {email, password})
+                const {data} = await axios.post('account/login', {email, password})
                 setUser(data)
                 setRedirect(true)
                 alert("Ok")

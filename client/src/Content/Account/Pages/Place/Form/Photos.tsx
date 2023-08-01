@@ -6,7 +6,7 @@ export const Photos = ({photos, setPhotos}) => {
 
     async function addPhotoByLink(e) {
         e.preventDefault()
-        const {data: filename} = await axios.post('/upload-by-link', {link: photoLink})
+        const {data: filename} = await axios.post('upload/upload-by-link', {link: photoLink})
         setPhotos(prev => [...prev, filename])
         setPhotoLink('')
     }
@@ -19,7 +19,7 @@ export const Photos = ({photos, setPhotos}) => {
             data.append('photos', files[i])
         }
 
-        axios.post('/upload', data, {
+        axios.post('upload/upload', data, {
             headers: {'Content-type': 'multipart/form-data'}
         }).then(res => {
             const {data: filenames} = res
