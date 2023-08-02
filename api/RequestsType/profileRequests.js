@@ -1,10 +1,10 @@
 const express = require('express');
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+const jwtSecret = require("../functions/jwtSecret");
 
 const router = express.Router();
 
-const jwtSecret = 'asdfghas14djhf4312adsghsdjf'
 router.get('/', (req, res) => {
     const {token} = req.cookies
 

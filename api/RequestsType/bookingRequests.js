@@ -2,17 +2,9 @@ const express = require('express');
 const Booking = require("../models/booking");
 
 const router = express.Router();
-const jwtSecret = 'asdfghas14djhf4312adsghsdjf'
-const jwt = require('jsonwebtoken')
 
-function getUserDataFromReq(req) {
-    return new Promise((resolve, reject) => {
-        jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
-            if (err) throw err
-            resolve(userData)
-        })
-    })
-}
+const getUserDataFromReq = require("../functions/getUserDataFromReq");
+
 router.post('/', async (req, res) => {
     const userData = await getUserDataFromReq(req)
 

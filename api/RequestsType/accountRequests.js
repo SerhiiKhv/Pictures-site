@@ -2,10 +2,10 @@ const express = require('express');
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const jwtSecret = require("../functions/jwtSecret");
 
 const router = express.Router();
 
-const jwtSecret = 'asdfghas14djhf4312adsghsdjf'
 const bcryptSalt = bcrypt.genSaltSync(10)
 
 router.post('/register', async (req, res) => {

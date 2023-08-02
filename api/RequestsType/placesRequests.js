@@ -1,18 +1,8 @@
 const express = require('express');
-const jwt = require("jsonwebtoken");
 const Place = require("../models/place");
+const getUserDataFromReq = require("../functions/getUserDataFromReq");
 
 const router = express.Router();
-const jwtSecret = 'asdfghas14djhf4312adsghsdjf'
-
-function getUserDataFromReq(req) {
-    return new Promise((resolve, reject) => {
-        jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
-            if (err) throw err
-            resolve(userData)
-        })
-    })
-}
 
 router.post('/', async (req, res) => {
     const {
