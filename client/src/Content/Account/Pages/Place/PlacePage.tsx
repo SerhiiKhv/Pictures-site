@@ -26,9 +26,12 @@ export const PlacePage = () => {
             <h1 className="text-2xl">{place.title}</h1>
             <AddressLink place={place}/>
 
-            <PhotosLink place={place}/>
+            <div className="h-40rem">
+                <PhotosLink place={place}/>
+            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] py-2">
+
+            <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] py-10">
                 <div>
                     <h2 className="font-semibold text-2xl">Description</h2>
                     <p>{place.description}</p>

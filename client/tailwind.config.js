@@ -9,6 +9,9 @@ export default {
         colors:{
             primary: '#f5385D',
             pacificblue: '#0092ca'
+        },
+        height:{
+            '40rem': '40rem'
         }
     },
   },

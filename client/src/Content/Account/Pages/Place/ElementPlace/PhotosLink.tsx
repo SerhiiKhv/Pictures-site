@@ -33,60 +33,129 @@ export const PhotosLink = ({place}) => {
         )
     }
 
-    return(
-        <div className="relative h-1/3">
-            {place.photos[0] &&
-                <div className="grid gap-2 grid-cols-[2fr_1fr_1fr] ">
-                    <img src={"http://localhost:4000/uploads" + place.photos[0]}
-                         className="aspect-square object-cover" alt="Loading..."
-                         onClick={() => setShowAllPhotos(true)}/>
-                    <div>
-                        <div className="grid">
-                            {place.photos[1] && (
-                                <img src={"http://localhost:4000/uploads" + place.photos[1]}
-                                     className="aspect-square object-cover " alt="Loading..."
-                                     onClick={() => setShowAllPhotos(true)}/>
-                            )}
-                        </div>
+    function checkPhoto(index, className = '') {
 
-                        <div className="overflow-hidden">
-                            {place.photos[2] && (
-                                <img src={"http://localhost:4000/uploads" + place.photos[2]}
-                                     className="aspect-square object-cover relative top-2" alt="Loading..."
-                                     onClick={() => setShowAllPhotos(true)}/>
-                            )}
-                        </div>
-                    </div>
+        if (!className) {
+            className = "h-80 w-full aspect-square object-cover"
+        }
 
-                    <div>
-                        <div className="grid">
-                            {place.photos[3] && (
-                                <img src={"http://localhost:4000/uploads" + place.photos[3]}
-                                     className="aspect-square object-cover " alt="Loading..."
-                                     onClick={() => setShowAllPhotos(true)}/>
-                            )}
-                        </div>
+        return (
+            <img src={"http://localhost:4000/uploads" + place.photos[index]}
+                 className={className} alt="Loading..."
+                 onClick={() => setShowAllPhotos(true)}/>
+        )
+    }
 
-                        <div className="overflow-hidden">
-                            {place.photos[4] && (
-                                <img src={"http://localhost:4000/uploads" + place.photos[4]}
-                                     className="aspect-square object-cover relative top-2" alt="Loading..."
-                                     onClick={() => setShowAllPhotos(true)}/>
-                            )}
-                        </div>
-                    </div>
-                    <button className="flex gap-1 absolute bg-gray-200 rounded-2xl px-4 py-2
+    function buttonShowMore() {
+        return (
+            <button className="flex gap-1 absolute bg-gray-200 rounded-2xl px-4 py-2
                             bottom-2 right-2" onClick={() => setShowAllPhotos(true)}>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
-                             stroke="currentColor" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round"
-                                  d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/>
-                        </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                     stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round"
+                          d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/>
+                </svg>
 
-                        Show more
-                    </button>
-                </div>
-            }
+                Show more
+            </button>
+        )
+    }
+
+
+    return (
+        <div className="relative">
+            <div className="">
+                {place.photos.length === 1 && (
+                    <div>
+                        <div className="">
+                            {checkPhoto(0, "h-40rem w-full object-cover object-center")}
+                        </div>
+                        {buttonShowMore()}
+                    </div>
+                )}
+
+                {place.photos.length === 2 && (
+                    <div className="grid grid-cols-2 gap-2">
+                        <div>
+                            {checkPhoto(0, "h-40rem w-full object-cover object-center")}
+                        </div>
+                        <div>
+                            {checkPhoto(1, "h-40rem w-full object-cover object-center")}
+                        </div>
+                        {buttonShowMore()}
+                    </div>
+                )}
+
+                {place.photos.length === 3 && (
+                    <div className="grid grid-cols-[2fr_1fr] gap-2">
+                        <div>
+                            {checkPhoto(0, "h-40rem w-full object-cover object-center")}
+                        </div>
+                        <div>
+                            <div>
+                                {checkPhoto(1)}
+                            </div>
+
+                            <div className="overflow-hidden">
+                                {checkPhoto(2, "relative top-2 h-80 w-full object-cover object-center")}
+                            </div>
+                        </div>
+                        {buttonShowMore()}
+                    </div>
+                )}
+
+                {place.photos.length === 4 && (
+                    <div className="grid grid-cols-2 gap-2">
+                        <div>
+                            <div>
+                                {checkPhoto(0)}
+                            </div>
+
+                            <div>
+                                {checkPhoto(1, "relative top-2 h-80 w-full object-cover object-center")}
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                {checkPhoto(2)}
+                            </div>
+
+                            <div>
+                                {checkPhoto(3, "relative top-2 h-80 w-full object-cover object-center")}
+                            </div>
+                        </div>
+                        {buttonShowMore()}
+                    </div>
+                )}
+
+
+                {place.photos.length >= 5 && (
+                    <div className="grid gap-2 grid-cols-[2fr_1fr_1fr] ">
+                        {checkPhoto(0, "h-40rem w-full object-cover object-center")}
+                        <div>
+                            <div className="grid">
+                                {checkPhoto(1)}
+                            </div>
+
+                            <div className="overflow-hidden">
+                                {checkPhoto(2, "relative top-2 h-80 w-full object-cover object-center")}
+                            </div>
+                        </div>
+
+                        <div>
+                            <div className="grid">
+                                {checkPhoto(3)}
+                            </div>
+
+                            <div className="overflow-hidden">
+                                {checkPhoto(4, "relative top-2 h-80 w-full object-cover object-center")}
+                            </div>
+                        </div>
+                        {buttonShowMore()}
+                    </div>
+                )}
+            </div>
+
         </div>
     )
 }
