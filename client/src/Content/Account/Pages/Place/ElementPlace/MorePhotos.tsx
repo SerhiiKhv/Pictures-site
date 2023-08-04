@@ -4,15 +4,29 @@ export const MorePhotos = ({place, setShowAllPhotos}) => {
 
     const [index, setIndex] = useState(0)
 
-    if(index > place.photos.length - 1){
+    if (index > place.photos.length - 1) {
         setIndex(0)
     }
 
-    if(index < 0){
+    if (index < 0) {
         setIndex(place.photos.length - 1)
     }
 
-    return(
+    function activePhoto(photo, indexPhoto) {
+        let className = "rounded-2xl p-2 w-full h-32 aspect-square object-cover"
+
+        if(index === indexPhoto){
+            className = "rounded-2xl p-2 w-full  bg-gray-200 shadow shadow-black h-32 aspect-square object-cover"
+        }
+
+        return (
+            <img src={"http://localhost:4000/uploads" + photo}
+                 className={className} alt="Loading..."/>
+        )
+
+    }
+
+    return (
         <div className="absolute inset-0 bg-white w-full">
             <h2 className="text-3xl fixed left-10">Photos of {place.title}</h2>
             <div className="p-8 grid h-full grid-cols-[5fr_1fr] gap-4">
@@ -20,8 +34,9 @@ export const MorePhotos = ({place, setShowAllPhotos}) => {
                     <button onClick={() => setIndex((prev) => prev + 1)}
                             className="absolute top-1/2 right-5 flex gap-1
                           bg-gray-200 shadow shadow-black p-2 rounded-2xl transform -translate-y-1/2">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                             stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
                         </svg>
                     </button>
 
@@ -31,17 +46,17 @@ export const MorePhotos = ({place, setShowAllPhotos}) => {
                     <button onClick={() => setIndex((prev) => prev - 1)}
                             className="absolute top-1/2 left-5 flex gap-1 bg-gray-200
                             shadow shadow-black p-2 rounded-2xl transform -translate-y-1/2">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                             stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
                         </svg>
                     </button>
 
                 </div>
                 <div className="overflow-y-auto h-90vh">
-                    {place.photos.length > 0 && place.photos.map(photo => (
+                    {place.photos.length > 0 && place.photos.map((photo, indexPhoto) => (
                         <div key={photo}>
-                            <img src={"http://localhost:4000/uploads" + photo}
-                                 className="rounded-2xl p-2 w-full h-32 aspect-square object-cover" alt="Loading..."/>
+                            {activePhoto(photo, indexPhoto)}
                         </div>
                     ))}
                 </div>
@@ -58,6 +73,3 @@ export const MorePhotos = ({place, setShowAllPhotos}) => {
         </div>
     )
 }
-
-
-
