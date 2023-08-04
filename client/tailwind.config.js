@@ -11,7 +11,8 @@ export default {
             pacificblue: '#0092ca'
         },
         height:{
-            '40rem': '40rem'
+            '40rem': '40rem',
+            "90vh": '90vh'
         }
     },
   },

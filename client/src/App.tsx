@@ -12,6 +12,7 @@ import {PlacePageAccount} from "./Content/Account/Pages/Place/PlacePageAccount";
 import {PlaceFrom} from "./Content/Account/Pages/Place/Form/PlaceFrom";
 import {PlacePage} from "./Content/Account/Pages/Place/PlacePage";
 import {BookingPage} from "./Content/Account/Pages/Bookings/BookingPage";
+import {MorePhotos} from "./Content/Account/Pages/Place/ElementPlace/MorePhotos";
 
 axios.defaults.baseURL = 'http://localhost:4000/'
 axios.defaults.withCredentials = true

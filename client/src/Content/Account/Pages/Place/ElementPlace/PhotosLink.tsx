@@ -1,37 +1,6 @@
 import {useState} from "react";
 
-export const PhotosLink = ({place}) => {
-
-    const [showAllPhotos, setShowAllPhotos] = useState(false)
-
-    if (showAllPhotos) {
-        return (
-            <div className="absolute inset-0 bg-white min-h-screen min-w-full">
-                <div className="p-8 grid gap-4">
-                    <h2 className="text-3xl">Photos of {place.title}</h2>
-
-                    <button className="fixed right-12 flex gap-1 top-8 bg-gray-200
-                    shadow shadow-black px-4 py-2 rounded-2xl" onClick={() => setShowAllPhotos(false)}>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
-                             stroke="currentColor" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-
-                        Close photos
-                    </button>
-
-                </div>
-                <div className="grid grid-cols-2">
-                    {place.photos.length > 0 && place.photos.map(photo => (
-                        <div key={photo.id}>
-                            <img src={"http://localhost:4000/uploads" + photo}
-                                 className="p-2 w-full h-full" alt="Loading..."/>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        )
-    }
+export const PhotosLink = ({place, setShowAllPhotos}) => {
 
     function checkPhoto(index, className = '') {
 
