@@ -1,4 +1,4 @@
-import {useCallback, useContext, useState} from "react";
+import React, {useCallback, useContext, useState} from "react";
 import {FieldValues, SubmitHandler, useForm} from "react-hook-form";
 import {Input} from "../components/inputs/input";
 import {Button} from "../components/button/Button";
@@ -10,8 +10,8 @@ type Variant = "REGISTER" | "LOGIN"
 
 export const LoginForm = () => {
     const [variant, setVariant] = useState<Variant>('LOGIN')
-    const [isLogin, setIsLogin] = useState(false)
     const [redirect, setRedirect] = useState(false)
+    const [errorMessage, setErrorMessage] = useState()
     const {setUser} = useContext(UserContext)
 
     const toggleVariant = useCallback(() => {
@@ -35,9 +35,7 @@ export const LoginForm = () => {
         }
     })
 
-    const onSubmit: SubmitHandler<FieldValues> = async (data, e) => {
-        setIsLogin(true)
-
+    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         const { email, password } = data; // Отримання email та password з об'єкта data
 
         if (variant === "REGISTER") {
@@ -50,21 +48,21 @@ export const LoginForm = () => {
         }
 
         if (variant === "LOGIN") {
-            try{
-                const {data} = await axios.post('account/login', {email, password})
-                setUser(data)
-                setRedirect(true)
-                alert("Ok")
-            }catch(e){
-                alert("Not ok")
+            try {
+                const response = await axios.post('account/login', { email, password });
+                const { data } = response;
+
+                if (data.success) {
+                    setUser(data.user);
+                    setRedirect(true);
+                } else {
+                    setErrorMessage(response.data.errorMessage)
+                }
+            } catch (error) {
+                alert("Error occurred");
             }
         }
-    }
 
-    const socialAction = (action: string) => {
-        setIsLogin(true)
-
-        //NextAuth Social Sign In
     }
 
     if(redirect){
@@ -72,9 +70,8 @@ export const LoginForm = () => {
     }
 
     return (
-        <div className=" mt-8 sm:mx-auto sm:max-w-md">
+        <div className="mt-8 sm:mx-auto sm:max-w-md">
             <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
-
                 <form
                     className="space-y-6"
                     onSubmit={handleSubmit(onSubmit)}
@@ -87,14 +84,14 @@ export const LoginForm = () => {
                             register={register}
                             errors={errors}/>
                     )}
-
                     <Input
                         id="email"
                         label="Email"
                         type="email"
                         placeholder="name@email.com"
                         register={register}
-                        errors={errors}/>
+                        errors={errors}
+                        />
 
                     <Input
                         id="password"
@@ -104,6 +101,9 @@ export const LoginForm = () => {
                         register={register}
                         errors={errors}/>
 
+                    <div>
+                        <h2 className="text-xl text-red-700 text-center">{errorMessage}</h2>
+                    </div>
                     <div>
                         <Button
                             fullWidth

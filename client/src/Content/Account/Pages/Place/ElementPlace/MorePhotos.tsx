@@ -6,7 +6,6 @@ export const MorePhotos = ({place, setShowAllPhotos}) => {
 
     const containerRef = useRef(null);
 
-
     if (index > place.photos.length - 1) {
         setIndex(0)
     }

@@ -24,26 +24,26 @@ router.post('/register', async (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
-    const {email, password} = req.body
+    const { email, password } = req.body
 
-    const userDov = await User.findOne({email})
+    const userDov = await User.findOne({ email })
 
     if (userDov) {
         const passOk = bcrypt.compareSync(password, userDov.password)
         if (passOk) {
-            jwt.sign({email: userDov.email, id: userDov._id}, jwtSecret, {},
+            jwt.sign({ email: userDov.email, id: userDov._id }, jwtSecret, {},
                 (err, token) => {
                     if (err) throw err;
-                    res.cookie('token', token).json(userDov)
+                    res.cookie('token', token).json({ success: true, user: userDov });
                 })
-
         } else {
-            res.status(422).json("Not ok password")
+            res.json({ success: false, errorMessage: "Invalid password" });
         }
     } else {
-        res.status(422).json("Not ok email")
+        res.json({ success: false, errorMessage: "Invalid email" });
     }
 })
+
 
 router.post('/logout', (req, res) => {
     res.cookie("token", "").json(true)
