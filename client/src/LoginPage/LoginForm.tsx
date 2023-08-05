@@ -17,8 +17,10 @@ export const LoginForm = () => {
     const toggleVariant = useCallback(() => {
         if (variant === "LOGIN") {
             setVariant("REGISTER")
+            setErrorMessage("")
         } else
             setVariant("LOGIN")
+            setErrorMessage("")
     }, [variant])
 
     const {
@@ -41,9 +43,8 @@ export const LoginForm = () => {
         if (variant === "REGISTER") {
             try{
                 await axios.post('account/register', data)
-                alert("Ok")
             }catch(e){
-                alert("Not ok")
+                setErrorMessage("Error data")
             }
         }
 

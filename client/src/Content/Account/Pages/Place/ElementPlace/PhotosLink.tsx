@@ -1,5 +1,3 @@
-import {useState} from "react";
-
 export const PhotosLink = ({place, setShowAllPhotos}) => {
 
     function checkPhoto(index, className = '') {
