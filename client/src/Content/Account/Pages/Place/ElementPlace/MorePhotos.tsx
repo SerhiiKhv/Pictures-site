@@ -1,8 +1,11 @@
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
 export const MorePhotos = ({place, setShowAllPhotos}) => {
 
     const [index, setIndex] = useState(0)
+
+    const containerRef = useRef(null);
+
 
     if (index > place.photos.length - 1) {
         setIndex(0)
@@ -11,6 +14,15 @@ export const MorePhotos = ({place, setShowAllPhotos}) => {
     if (index < 0) {
         setIndex(place.photos.length - 1)
     }
+
+    useEffect(() => {
+        if (containerRef.current) {
+            const activePhotoElement = containerRef.current.children[index];
+            if (activePhotoElement) {
+                containerRef.current.scrollTop = activePhotoElement.offsetTop - 50;
+            }
+        }
+    }, [index]);
 
     function activePhoto(photo, indexPhoto) {
         let className = "rounded-2xl p-2 w-full h-32 aspect-square object-cover"
@@ -53,7 +65,7 @@ export const MorePhotos = ({place, setShowAllPhotos}) => {
                     </button>
 
                 </div>
-                <div className="overflow-y-auto h-90vh">
+                <div className="overflow-y-auto h-90vh" ref={containerRef}>
                     {place.photos.length > 0 && place.photos.map((photo, indexPhoto) => (
                         <div key={photo}>
                             {activePhoto(photo, indexPhoto)}
