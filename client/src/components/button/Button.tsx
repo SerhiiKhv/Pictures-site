@@ -9,6 +9,7 @@ interface ButtonProps {
     secondary?: boolean
     danger?: boolean
     disabled?: boolean
+    className?: string
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -18,25 +19,21 @@ export const Button: React.FC<ButtonProps> = ({
                                                   onClick,
                                                   secondary,
                                                   danger,
-                                                  disabled
+                                                  disabled,
+                                                  className
                                               }) => {
+
+    if(!className){
+        className = `flex justify-center rounded-md
+               px-3 py-2  text-sm font-semibold focus-visible:outline
+               focus-visible:outline-2 focus-visible:outline-offset-2`
+    }
     return (
         <button
             type={type}
             disabled={disabled}
             onClick={onClick}
-            className={clsx(`
-               flex
-               justify-center
-               rounded-md
-               px-3
-               py-2
-               text-sm
-               font-semibold
-               focus-visible:outline
-               focus-visible:outline-2
-               focus-visible:outline-offset-2
-            `,
+            className={clsx(className,
                 disabled && "opacity-50 cursor-default",
                 fullWidth && "w-full",
                 secondary ? "text-gray-900" : "text-white",
