@@ -5,6 +5,7 @@ import {BookingWidget} from "../Bookings/BokkingElement/BookingWidget";
 import {AddressLink} from "./ElementPlace/AddressLink";
 import {PhotosLink} from "./ElementPlace/PhotosLink";
 import {MorePhotos} from "./ElementPlace/MorePhotos";
+import {Perks} from "./Form/Perks";
 
 export const PlacePage = () => {
 
@@ -26,7 +27,7 @@ export const PlacePage = () => {
 
     return (
         <div>
-            {!showAllPhotos? (
+            {!showAllPhotos ? (
                 <div className="mt-8 bg-gray-100 p-8">
                     <h1 className="text-2xl">{place.title}</h1>
                     <AddressLink place={place}/>
@@ -56,6 +57,11 @@ export const PlacePage = () => {
                     <div className="bg-white p-4 rounded-2xl">
                         <h2 className="text-2xl font-semibold">Extra info:</h2>
                         <p className="mb-4 mt-2 text-sm leading-5 text-gray-700">{place.extraInfo}</p>
+                    </div>
+
+                    <h2 className="p-4 text-2xl font-semibold">Perks: </h2>
+                    <div className="gap-1 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+                        <Perks selected={place.perks}/>
                     </div>
                 </div>
             ) : (
