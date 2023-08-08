@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {useParams} from "react-router-dom";
 import {AddressLink} from "../Place/ElementPlace/AddressLink";
@@ -6,6 +6,7 @@ import {PhotosLink} from "../Place/ElementPlace/PhotosLink";
 import {differenceInCalendarDays} from "date-fns/fp";
 import {format} from "date-fns";
 import {MorePhotos} from "../Place/ElementPlace/MorePhotos";
+import {AccountNav} from "../../AccountNav";
 
 export const BookingPage = () => {
 
@@ -31,6 +32,7 @@ export const BookingPage = () => {
         <div>
             {!showAllPhotos? (
                 <div>
+                    <AccountNav/>
                     <div className="mt-8 px-8 ">
                         <h1 className="text-2xl font-bold">{booking.place.title}</h1>
                         <AddressLink place={booking.place}/>

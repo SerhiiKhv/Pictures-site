@@ -1,7 +1,7 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Perks} from "./Perks";
 import axios from "axios";
-import {useParams} from "react-router-dom";
+import {Navigate, useParams} from "react-router-dom";
 import {Photos} from "./Photos";
 import {AccountNav} from "../../../AccountNav";
 
@@ -18,6 +18,7 @@ export const PlaceFrom = () => {
     const [checkOut, setCheckOut] = useState('')
     const [maxGuests, setMaxGuests] = useState(1)
     const [price, setPrice] = useState(50)
+    const [redirect, setRedirect] = useState(false)
 
     useEffect(() => {
         if (!id) {
@@ -53,6 +54,7 @@ export const PlaceFrom = () => {
         } else {
             await axios.post("/places", placeData)
         }
+        setRedirect(true)
     }
 
     function inputHeader(text, description) {
@@ -75,6 +77,10 @@ export const PlaceFrom = () => {
             {inputHeader(text, description)}
             {inputText(placeholder, setType, value)}
         </>
+    }
+
+    if(redirect){
+        return <Navigate to={"/account/places"} />
     }
 
     return (

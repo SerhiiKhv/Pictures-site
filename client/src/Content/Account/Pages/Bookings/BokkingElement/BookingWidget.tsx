@@ -1,7 +1,8 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import {differenceInCalendarDays} from "date-fns/fp";
 import axios from "axios";
 import {Button} from "../../../../../components/button/Button";
+import {Navigate} from "react-router-dom";
 
 export const BookingWidget = ({place}) => {
 
@@ -10,6 +11,8 @@ export const BookingWidget = ({place}) => {
     const [name, setName] = useState()
     const [phone, setPhone] = useState()
     const [numberGuests, setNumberGuests] = useState(1)
+    const [redirect, setRedirect] = useState(false)
+    const [bookingId, setBookingId] = useState()
 
     let numberOfDays = 0
     if (checkIn && checkOut) {
@@ -23,7 +26,12 @@ export const BookingWidget = ({place}) => {
             price: numberOfDays * place.price,
         })
 
-        const bookingId = response.data._id
+        setBookingId(response.data._id)
+        setRedirect(true)
+    }
+
+    if(redirect){
+        return <Navigate to={`/account/bookings/${bookingId}`} />
     }
 
     return (
