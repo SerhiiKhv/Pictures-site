@@ -24,8 +24,24 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/', async (req, res) => {
-    res.json(await Place.find())
-})
+    const page = parseInt(req.query.page) || 1; // Поточна сторінка (порція)
+    const itemsPerPage = parseInt(req.query.cout) || 10; // Кількості елементів які потрібно буде повернути
+
+    const startIndex = (page - 1) * itemsPerPage;
+
+    try {
+        const totalItems = await Place.countDocuments(); // Загальна кількість елементів
+        const places = await Place.find().skip(startIndex).limit(itemsPerPage);
+
+        res.json({
+            places,
+            currentPage: page,
+            totalItems: totalItems
+        });
+    } catch (error) {
+        res.status(500).json({ error: 'Помилка сервера' });
+    }
+});
 
 router.get('/:id', async (req, res) => {
     const {id} = req.params
