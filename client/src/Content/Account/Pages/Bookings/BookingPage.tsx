@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import axios from "axios";
 import {useParams} from "react-router-dom";
 import {AddressLink} from "../Place/ElementPlace/AddressLink";
 import {PhotosLink} from "../Place/ElementPlace/PhotosLink";
@@ -7,6 +6,7 @@ import {differenceInCalendarDays} from "date-fns/fp";
 import {format} from "date-fns";
 import {MorePhotos} from "../Place/ElementPlace/MorePhotos";
 import {AccountNav} from "../../AccountNav";
+import {BookingApi} from "../../../../api/Api";
 
 export const BookingPage = () => {
 
@@ -17,7 +17,7 @@ export const BookingPage = () => {
 
     useEffect(() => {
         if (id) {
-            axios.get(`booking/` + id).then(res => {
+            BookingApi.getBookingId(id).then(res => {
                     setBooking(res.data)
                 }
             )

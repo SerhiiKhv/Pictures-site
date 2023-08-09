@@ -29,9 +29,6 @@ export const Paginator: React.FC<PaginatorType> = (
     let leftBorder = (portionNumber - 1) * portionSizePaginator + 1;
     let rightBorder = portionNumber * portionSizePaginator;
 
-    console.log(totalItemsCount, currentPage,
-        portionSize, portionSizePaginator)
-
     return <div className="flex items-center justify-center gap-2 border-2xl w-1/2">
         {portionNumber > 1
             && <button onClick={() => {

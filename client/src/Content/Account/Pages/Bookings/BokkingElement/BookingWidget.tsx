@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import {differenceInCalendarDays} from "date-fns/fp";
-import axios from "axios";
 import {Button} from "../../../../../components/button/Button";
 import {Navigate} from "react-router-dom";
+import {BookingApi} from "../../../../../api/Api";
 
 export const BookingWidget = ({place}) => {
 
@@ -20,7 +20,8 @@ export const BookingWidget = ({place}) => {
     }
 
     async function bookThisPlace() {
-        const response = await axios.post("/booking", {
+
+        const response = await BookingApi.postBooking({
             checkIn, checkOut, name, phone, numberGuests,
             place: place._id,
             price: numberOfDays * place.price,

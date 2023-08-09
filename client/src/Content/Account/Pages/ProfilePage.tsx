@@ -1,17 +1,16 @@
 import {useContext, useState} from "react";
 import {UserContext} from "../../../UserContext";
-import axios from "axios";
 import {Navigate} from "react-router-dom";
 import {AccountNav} from "../AccountNav";
+import {AuthorizationAPi} from "../../../api/Api";
 
 export const ProfilePage = () => {
 
     const [redirect, setRedirect] = useState('')
     const {ready, user, setUser} = useContext(UserContext)
 
-
     async function logout() {
-        await axios.post("account/logout")
+        await AuthorizationAPi.Logout()
         setRedirect('/')
         setUser(null)
     }

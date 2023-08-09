@@ -1,13 +1,13 @@
 import {useEffect, useState} from "react";
-import axios from "axios";
 import {Link} from "react-router-dom";
 import notImage from "../../../../assets/notImage.webp"
+import {PlacesApi} from "../../../../api/Api";
 
 export const PlaceList = () => {
     const [place, setPlace] = useState([])
 
     useEffect(() => {
-        axios.get('/user-places').then(({data}) => {
+        PlacesApi.getUserPlaces().then(({data}) => {
             setPlace(data)
         })
     }, [])

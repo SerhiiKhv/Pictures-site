@@ -1,12 +1,12 @@
 import {useState} from "react";
-import axios from "axios";
+import {PlacesApi} from "../../../../../api/Api";
 
 export const Photos = ({photos, setPhotos}) => {
     const [photoLink, setPhotoLink] = useState('')
 
     async function addPhotoByLink(e) {
         e.preventDefault()
-        const {data: filename} = await axios.post('upload/upload-by-link', {link: photoLink})
+        const {data: filename} = await PlacesApi.uploadByLink({link: photoLink})
         setPhotos(prev => [...prev, filename])
         setPhotoLink('')
     }
@@ -19,9 +19,7 @@ export const Photos = ({photos, setPhotos}) => {
             data.append('photos', files[i])
         }
 
-        axios.post('upload/upload', data, {
-            headers: {'Content-type': 'multipart/form-data'}
-        }).then(res => {
+        PlacesApi.upload(data).then(res => {
             const {data: filenames} = res
             setPhotos(prev => {
                 return [...prev, ...filenames]

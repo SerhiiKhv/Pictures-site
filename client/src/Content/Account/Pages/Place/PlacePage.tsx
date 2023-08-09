@@ -1,11 +1,11 @@
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import axios from "axios";
 import {BookingWidget} from "../Bookings/BokkingElement/BookingWidget";
 import {AddressLink} from "./ElementPlace/AddressLink";
 import {PhotosLink} from "./ElementPlace/PhotosLink";
 import {MorePhotos} from "./ElementPlace/MorePhotos";
 import {Perks} from "./Form/Perks";
+import {PlacesApi} from "../../../../api/Api";
 
 export const PlacePage = () => {
 
@@ -17,7 +17,7 @@ export const PlacePage = () => {
         if (!id) {
             return
         }
-        axios.get(`places/${id}`).then(res => setPlace(res.data))
+        PlacesApi.getPlacesId(id).then(res => setPlace(res.data))
     }, [id])
 
     if (!place) {

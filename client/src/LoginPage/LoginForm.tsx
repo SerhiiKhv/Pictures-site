@@ -2,9 +2,9 @@ import React, {useCallback, useContext, useState} from "react";
 import {FieldValues, SubmitHandler, useForm} from "react-hook-form";
 import {Input} from "../components/inputs/input";
 import {Button} from "../components/button/Button";
-import axios from "axios";
 import {Navigate} from "react-router-dom";
 import {UserContext} from "../UserContext";
+import {AuthorizationAPi} from "../api/Api";
 
 type Variant = "REGISTER" | "LOGIN"
 
@@ -38,11 +38,10 @@ export const LoginForm = () => {
     })
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-        const { email, password } = data; // Отримання email та password з об'єкта data
-
-        if (variant === "REGISTER") {
+         if (variant === "REGISTER") {
             try{
-                await axios.post('account/register', data)
+                await AuthorizationAPi.Register(data)
+                setVariant("LOGIN")
             }catch(e){
                 setErrorMessage("Error data")
             }
@@ -50,20 +49,19 @@ export const LoginForm = () => {
 
         if (variant === "LOGIN") {
             try {
-                const response = await axios.post('account/login', { email, password });
-                const { data } = response;
+                const response = await AuthorizationAPi.Login(data)
+                const {success, user, errorMessage} = response;
 
-                if (data.success) {
-                    setUser(data.user);
+                if (success) {
+                    setUser(user);
                     setRedirect(true);
                 } else {
-                    setErrorMessage(response.data.errorMessage)
+                    setErrorMessage(errorMessage)
                 }
             } catch (error) {
                 alert("Error occurred");
             }
         }
-
     }
 
     if(redirect){

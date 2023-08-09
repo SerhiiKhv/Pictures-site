@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
-import axios from "axios";
 import notImage from "../assets/notImage.webp"
 import {Link, useSearchParams} from "react-router-dom";
 import {Paginator} from "../components/paginator/Paginator";
+import {PlacesApi} from "../api/Api";
 
 export const IndexPage = () => {
 
@@ -16,11 +16,12 @@ export const IndexPage = () => {
     let portionSize = 8
 
     useEffect(() => {
-        axios.get(`places?page=${currentPageParamURL}&cout=${portionSize}`).then(res => {
-            setPlace(res.data.places)
-            setCurrentPage(res.data.currentPage)
-            setTotalItemsCount(res.data.totalItems)
-        })
+        PlacesApi.getPlaces(currentPageParamURL, portionSize)
+            .then(res => {
+                setPlace(res.data.places)
+                setCurrentPage(res.data.currentPage)
+                setTotalItemsCount(res.data.totalItems)
+            })
     }, [])
 
     useEffect(() => {
@@ -32,7 +33,7 @@ export const IndexPage = () => {
     }, [currentPage])
 
     function onPageChanged(portionNumber: number) {
-        axios.get(`places?page=${portionNumber}&cout=${portionSize}`).then(res => {
+        PlacesApi.getPlaces(portionNumber, portionSize).then(res => {
             setPlace(res.data.places)
             setCurrentPage(res.data.currentPage)
         })

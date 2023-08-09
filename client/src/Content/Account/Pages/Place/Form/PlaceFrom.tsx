@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Perks} from "./Perks";
-import axios from "axios";
 import {Navigate, useParams} from "react-router-dom";
 import {Photos} from "./Photos";
 import {AccountNav} from "../../../AccountNav";
+import {PlacesApi} from "../../../../../api/Api";
 
 export const PlaceFrom = () => {
     const {id} = useParams()
@@ -24,7 +24,7 @@ export const PlaceFrom = () => {
         if (!id) {
             return
         }
-        axios.get('places/' + id).then(res => {
+        PlacesApi.getPlacesId(id).then(res => {
             const {data} = res
             setTitle(data.title)
             setAddress(data.address)
@@ -48,11 +48,9 @@ export const PlaceFrom = () => {
         }
 
         if (id) {
-            await axios.put("/places", {
-                id, ...placeData
-            })
+            await PlacesApi.putPlaces({id, ...placeData})
         } else {
-            await axios.post("/places", placeData)
+            await PlacesApi.postPlaces(placeData)
         }
         setRedirect(true)
     }

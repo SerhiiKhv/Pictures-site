@@ -1,16 +1,16 @@
 import {useEffect, useState} from "react";
-import axios from "axios";
 import {ImgPlace} from "../../../../components/imgPlace/ImgPlace";
 import {format} from "date-fns";
 import {differenceInCalendarDays} from "date-fns/fp";
 import {AccountNav} from "../../AccountNav";
 import {Link} from "react-router-dom";
+import {BookingApi} from "../../../../api/Api";
 
 export const BookingsPage = () => {
     const [bookings, setBookings] = useState([])
 
     useEffect(() => {
-        axios.get("/booking").then(res => setBookings(res.data))
+        BookingApi.getBooking().then(res => setBookings(res.data))
     }, [])
 
     return (

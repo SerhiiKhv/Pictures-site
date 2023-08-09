@@ -3,7 +3,6 @@ import {Layout} from "./Layout";
 import {Route, Routes} from "react-router-dom";
 import {IndexPage} from "./Content/IndexPage";
 import {LoginPage} from "./LoginPage/LoginPage";
-import axios from "axios";
 import {UserContextProvider} from "./UserContext";
 import {AccountPage} from "./Content/Account/AccountPage";
 import {BookingsPage} from "./Content/Account/Pages/Bookings/BookingsPage";
@@ -12,10 +11,6 @@ import {PlacePageAccount} from "./Content/Account/Pages/Place/PlacePageAccount";
 import {PlaceFrom} from "./Content/Account/Pages/Place/Form/PlaceFrom";
 import {PlacePage} from "./Content/Account/Pages/Place/PlacePage";
 import {BookingPage} from "./Content/Account/Pages/Bookings/BookingPage";
-import {MorePhotos} from "./Content/Account/Pages/Place/ElementPlace/MorePhotos";
-
-axios.defaults.baseURL = 'http://localhost:4000/'
-axios.defaults.withCredentials = true
 
 function App() {
     return (
