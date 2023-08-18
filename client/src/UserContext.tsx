@@ -1,5 +1,5 @@
 import {createContext, useEffect, useState} from "react";
-import axios from "axios";
+import {AuthorizationAPi} from "./api/Api";
 
 export const UserContext = createContext({})
 
@@ -9,7 +9,7 @@ export function UserContextProvider({children}) {
 
     useEffect(() => {
         if(!user){
-            axios.get("profile").then(({data}) => {
+            AuthorizationAPi.GetProfile().then(({data}) => {
                 setUser(data)
                 setReady(true)
             })

@@ -15,6 +15,9 @@ export const AuthorizationAPi = {
     },
     Logout() {
         return instance.post('account/logout')
+    },
+    GetProfile(){
+        return instance.get("profile")
     }
 }
 
