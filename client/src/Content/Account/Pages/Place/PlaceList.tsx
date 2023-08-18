@@ -12,6 +12,14 @@ export const PlaceList = () => {
         })
     }, [])
 
+    function checkDescriptionLength(description) {
+        let maxLength = window.innerWidth >= 768 ? 700 : 80;
+        if (description.length >= maxLength) {
+            return description.slice(0, maxLength) + "...";
+        }
+        return description;
+    }
+
     return(
         <div className="py-4">
             {place.length > 0? place.map(place => (
@@ -28,7 +36,7 @@ export const PlaceList = () => {
                     </div>
                     <div className='grow-0 shrink'>
                         <h2 className="text-xl">{place.title}</h2>
-                        <p className="text-sm mt-2">{place.description}</p>
+                        <p className="text-sm mt-2">{checkDescriptionLength(place.description)}</p>
                     </div>
                 </Link>
             )) :

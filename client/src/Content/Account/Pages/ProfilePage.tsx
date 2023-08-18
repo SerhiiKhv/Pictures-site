@@ -30,7 +30,7 @@ export const ProfilePage = () => {
     return(
         <div>
             <AccountNav />
-            <div className='text-center max-w-sm mx-auto py-6'>
+            <div className='text-center max-w-sm mx-auto py-6 px-2'>
                 <p className="py-1">Logged in as {user.name} ({user.email})</p><br/>
                 <button onClick={logout} className='bg-pacificblue text-white rounded-full p-2 w-full'>Logout
                 </button>
